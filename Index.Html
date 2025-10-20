@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>No1 Binary — Colour Prediction</title>
+  <style>
+    /* Basic mobile-first styling */
+    :root{
+      --primary:#0ea5a4; /* teal */
+      --accent:#ff3b30;  /* red */
+      --bg:#0b1020;
+      --card:#fff;
+      --muted:#6b7280;
+    }
+    *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+    body{margin:0;background:linear-gradient(180deg,#071021 0%, #081224 100%);color:#111;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+    .container{width:100%;max-width:420px;background:var(--card);border-radius:18px;box-shadow:0 8px 40px rgba(2,6,23,0.6);overflow:hidden}
+    header{padding:18px 20px;border-bottom:1px solid #f1f1f4;background:linear-gradient(180deg,#ffffff, #fbfdff);}
+    header h1{margin:0;font-size:20px;color:#e11d48;text-align:center;}
+    header p{margin:6px 0 0;font-size:13px;text-align:center;color:var(--muted);}
+    .hero{padding:18px;text-align:center;}
+    .hero img{width:160px;height:160px;border-radius:50%;object-fit:cover;border:6px solid rgba(14,165,164,0.12)}
+    .brand{margin-top:12px;font-weight:700;color:#0b1220}
+    .cta{display:flex;gap:8px;padding:18px;border-top:1px solid #f3f3f6;align-items:center;justify-content:center;background:#f9fafb}
+    .btn{display:inline-block;padding:12px 16px;border-radius:999px;text-decoration:none;font-weight:700}
+    .btn-telegram{background:linear-gradient(90deg,#06b6d4,#0ea5a4);color:white}
+    .btn-join{background:#fff;border:2px solid #0ea5a4;color:#0b1220}
+    .timer{font-weight:800;color:#ef4444;font-size:20px;margin-top:10px;text-align:center}
+    .content{padding:16px;}
+    .muted{color:var(--muted);font-size:13px;text-align:center;margin-top:6px}
+    /* color prediction panel */
+    .panel{margin-top:14px;background:#fbfdff;padding:14px;border-radius:12px;box-shadow:0 4px 18px rgba(2,6,23,0.04)}
+    .palette{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:10px}
+    .color-dot{width:44px;height:44px;border-radius:8px;cursor:pointer;border:3px solid transparent;box-shadow:0 2px 8px rgba(2,6,23,0.06)}
+    .color-dot.selected{outline:4px solid rgba(14,165,164,0.14);transform:translateY(-3px)}
+    .predict-btn{display:block;width:100%;padding:10px;border-radius:8px;border:0;background:var(--primary);color:#fff;font-weight:700;cursor:pointer}
+    .result{margin-top:12px;text-align:center;font-weight:700}
+    .small{font-size:12px;color:var(--muted)}
+    @media (min-width:520px){ body{padding:40px} .container{max-width:520px} }
+  </style>
+</head>
+<body>
+  <div class="container" role="main">
+    <header>
+      <h1>No 1 GOA PREDUCTION KING</h1>
+      <p>Telegram Channel — Get Vip signals (sample)</p>
+    </header>
+
+    <div class="hero">
+      <!-- Replace src with your image -->
+      <img src="https://i.ibb.co/JRhd6xbz/Picsart-25-10-19-09-11-44-985.jpg" alt="logo">
+      <div class="brand">GOA KING™ (GOA) Brand<https://i.ibb.co/JRhd6xbz/Picsart-25-10-19-09-11-44-985.jpg/div>
+      <div class="timer" id="countdown">00 : 00 : 05 : 00</div>
+      <div class="muted">Recover Your Loss In Quotes With 👇</div>
+    </div>
+
+    <div class="content">
+      <div style="text-align:center;margin-bottom:10px">
+        <a class="btn btn-telegram" href="https://t.me/" target="_blank" rel="noopener">🚀 JOIN FREE CHANNEL TELEGRAM</a>
+      </div>
+
+      <div class="panel" aria-live="polite">
+        <div style="text-align:center;font-weight:800;margin-bottom:8px">Colour Prediction</div>
+        <div class="small" style="text-align:center;margin-bottom:10px">Select a color you like — click Predict to see a simulated prediction</div>
+
+        <div class="palette" id="palette">
+          <!-- color buttons added by JS -->
+        </div>
+
+        <button class="predict-btn" id="predictBtn">JOIN VIP GROUP</button>
+
+        <div class="result" id="resultArea" aria-hidden="true" style="display:none">
+          <div id="predColorBox" style="width:80px;height:80px;margin:10px auto;border-radius:12px;border:4px solid #fff;box-shadow:0 6px 18px rgba(2,6,23,0.12)"></div>
+          <div id="predText"></div>
+          <div class="small" id="accuracyText"></div>
+        </div>
+
+        <div class="small" style="margin-top:8px">This is a local demo (no real money). Customize prediction logic in script.</div>
+      </div>
+
+      <div style="text-align:center;margin-top:14px;color:var(--muted);font-size:13px">
+        Ads Run By : YourName
+      </div>
+    </div>
+
+    <div class="cta">
+      <a class="btn btn-join" href="#" onclick="copyInvite(event)">👇 FREE JOIN HERE 👇</a>
+    </div>
+  </div>
+
+<script>
+/* ======= Countdown Timer (example: set to 5 minutes) ======= */
+(function(){
+  // set countdown seconds (example 5 minutes = 300)
+  const totalSeconds = 5 * 60; // change this value as you like
+  let remaining = totalSeconds;
+  const el = document.getElementById('countdown');
+
+  function fmt(secs){
+    const hh = Math.floor(secs/3600).toString().padStart(2,'0');
+    const mm = Math.floor((secs%3600)/60).toString().padStart(2,'0');
+    const ss = Math.floor(secs%60).toString().padStart(2,'0');
+    return ${hh} : ${mm} : ${ss};
+  }
+
+  el.textContent = fmt(remaining);
+
+  setInterval(()=>{
+    if(remaining>0){ remaining--; el.textContent = fmt(remaining); }
+    else { el.textContent = "LIVE"; }
+  },1000);
+})();
+
+/* ======= Colour Palette and Prediction Logic ======= */
+(function(){
+  const colors = [
+    {name:'Red', hex:'#ff3b30'},
+    {name:'Orange', hex:'#ff9500'},
+    {name:'Yellow', hex:'#ffcc00'},
+    {name:'Green', hex:'#0bd36a'},
+    {name:'Teal', hex:'#0ea5a4'},
+    {name:'Blue', hex:'#007aff'},
+    {name:'Purple', hex:'#5856d6'},
+    {name:'Pink', hex:'#ff2d55'},
+    {name:'Gray', hex:'#8e8e93'}
+  ];
+
+  const palette = document.getElementById('palette');
+  let selected = null;
+
+  // create dots
+  colors.forEach((c, idx)=>{
+    const d = document.createElement('div');
+    d.className = 'color-dot';
+    d.title = c.name;
+    d.style.background = c.hex;
+    d.dataset.idx = idx;
+    d.addEventListener('click',()=>{
+      document.querySelectorAll('.color-dot').forEach(x=>x.classList.remove('selected'));
+      d.classList.add('selected');
+      selected = idx;
+    });
+    palette.appendChild(d);
+  });
+
+  // simple prediction: use localStorage history as frequency -> predict most frequent next.
+  // This is only a demo. Keys in localStorage: "colorHistory" -> JSON array of indices
+  function saveChoice(chosenIdx){
+    try{
+      const key = 'colorHistory_v1';
+      const raw = localStorage.getItem(key);
+      const arr = raw ? JSON.parse(raw) : [];
+      arr.push(chosenIdx);
+      // keep last 200
+      if(arr.length>200) arr.splice(0, arr.length-200);
+      localStorage.setItem(key, JSON.stringify(arr));
+    }catch(e){ console.warn(e); }
+  }
+
+  function predictNext(){
+    const key = 'colorHistory_v1';
+    const raw = localStorage.getItem(key);
+    const arr = raw ? JSON.parse(raw) : [];
+    if(arr.length < 4){
+      // not enough data -> pick random but weighted towards middle blues
+      const rnd = Math.floor(Math.random()*colors.length);
+      return {idx:rnd, method:'Random (insufficient history)'};
+    }
+    // frequency count of chosen indices
+    const freq = {};
+    for(let i=0;i<arr.length;i++){
+      const k = arr[i];
+      freq[k] = (freq[k]||0) + 1;
+    }
+    // predict the most frequent
+    let bestIdx = null, bestCnt = -1;
+    Object.keys(freq).forEach(k=>{
+      if(freq[k] > bestCnt){ bestCnt = freq[k]; bestIdx = parseInt(k); }
+    });
+    // compute a fake "accuracy" based on how skewed frequency is
+    const total = arr.length;
+    const accuracy = Math.round((bestCnt/total)*100);
+    return {idx: bestIdx, method:'Frequency (history)', accuracy};
+  }
+
+  const predictBtn = document.getElementById('predictBtn');
+  const resultArea = document.getElementById('resultArea');
+  const predBox = document.getElementById('predColorBox');
+  const predText = document.getElementById('predText');
+  const accText = document.getElementById('accuracyText');
+
+  predictBtn.addEventListener('click', ()=>{
+    if(selected === null){
+      alert('Pehle koi colour select karein (tap on a color).');
+      return;
+    }
+    // save user's selection
+    saveChoice(selected);
+
+    // show "thinking" animation
+    predictBtn.disabled = true;
+    predictBtn.textContent = 'Predicting…';
+    setTimeout(()=>{
+      const p = predictNext();
+      const color = colors[p.idx];
+      predBox.style.background = color.hex;
+      predText.textContent = Predicted: ${color.name} (${color.hex}) — ${p.method};
+      if(p.accuracy) accText.textContent = Estimated accuracy: ${p.accuracy}% (based on local choices);
+      else accText.textContent = '';
+      resultArea.style.display = 'block';
+      resultArea.setAttribute('aria-hidden', 'false');
+      predictBtn.disabled = false;
+      predictBtn.textContent = 'Predict Next Colour';
+    },1200);
+  });
+
+})();
+
+/* ======= Utility: copy invite text ======= */
+function copyInvite(e){
+  e.preventDefault();
+  const invite = "Join my Telegram channel:https://t.me/+oE72J7Pgcso2ZDhl ";
+  navigator.clipboard?.writeText(invite).then(()=>{
+    alert('Invite nk copied to clipboard. Paste in Telegram to share!');
+  }).catch(()=>{
+    prompt('Copy this link:', invite);
+  });
+}
+</script>
+</body>
+</html>
