@@ -1,6 +1,22 @@
 <!doctype html>
 <html lang="en"> 
-<head> 
+<head> <!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1249807350631567');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1249807350631567&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>No1 Binary — Colour Prediction</title>
@@ -68,8 +84,9 @@
           <!-- color buttons added by JS -->
         </div>
 
-        <button class="predict-btn" id="predictBtn">JOIN VIP GROUP</button>
-
+        <a class="btn btn-telegram" href="https://t.me/+JlMAn6npUGQyNmZl" target="_blank">
+  🔥 JOIN VIP TELEGRAM GROUP 🔥
+        </a>
         <div class="result" id="resultArea" aria-hidden="true" style="display:none">
           <div id="predColorBox" style="width:80px;height:80px;margin:10px auto;border-radius:12px;border:4px solid #fff;box-shadow:0 6px 18px rgba(2,6,23,0.12)"></div>
           <div id="predText"></div>
